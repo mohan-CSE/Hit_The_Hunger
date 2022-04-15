@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<!-- Import the component -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+<!-- Use it like any other HTML element -->
+<model-viewer src="assets/archair.glb" controls auto-rotate poster="assets/chair.png" shadow-intensity="1" ar ar-modes="webxr screen-viewer quick-look" ar-scale="auto" ar-placement="floor" camera-controls alt="A 3D model carousel">
+    <button slot="ar-button" id="ar-button">
+      View in your space
+    </button>
+  
+    <div id="ar-prompt">
+      <img src="assets/stabilization.png">
+    </div>
+  
+    <button id="ar-failure">
+      AR is not tracking!
+    </button>
+  
+    <div class="slider">
+      <div class="slides">
+        <button class="slide selected" onclick="switchSrc(this, 'archair')" style="background-image: url('assets/chair.png');">
+  
+        </button><button class="slide" onclick="switchSrc(this, 'Mixer')" style="background-image: url('assets/chair.png');">
+  
+        </button><button class="slide" onclick="switchSrc(this, 'GeoPlanter')" style="background-image: url('assets/chair.png');">
+        
+        </button><button class="slide" onclick="switchSrc(this, 'ToyTrain')" style="background-image: url('assets/chair.png');">
+        
+        </button><button class="slide" onclick="switchSrc(this, 'Canoe')" style="background-image: url('assets/chair.png');">    
+      </button></div>
+    </div>
+  </model-viewer>
+  
+  <script type="module">
+    const modelViewer = document.querySelector("model-viewer");
+  
+    window.switchSrc = (element, name) => {
+      const base = "assets/" + name;
+      modelViewer.src = base + '.glb';
+      modelViewer.poster = base + '.png';
+      const slides = document.querySelectorAll(".slide");
+      slides.forEach((element) => {element.classList.remove("selected");});
+      element.classList.add("selected");
+    };
+  
+    document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
+      // Keep slider interactions from affecting the XR scene.
+      ev.preventDefault();
+    });
+  </script>
+</body>
+</html>
